@@ -1,6 +1,5 @@
 # 🏨 Hotel Booking System
 
-![Hotel Booking Animation](https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif)
 
 A modern, feature-rich hotel booking platform built with Django. This project includes user authentication, hotel and room management, booking and payment integration, reviews, image galleries, dashboards, wishlist, advanced search, Google Maps, and more—all with a beautiful, responsive UI.
 
@@ -23,7 +22,7 @@ A modern, feature-rich hotel booking platform built with Django. This project in
 
 ## 🚀 Demo
 
-![Hotel Booking Demo](https://media.giphy.com/media/26ufnwz3wDUli7GU0/giphy.gif)
+![Hotel Booking Demo]()
 
 ---
 
@@ -61,11 +60,6 @@ A modern, feature-rich hotel booking platform built with Django. This project in
 
 ---
 
-## 📸 Screenshots
-
-| Home Page | Hotel Detail | Booking Calendar | Dashboard |
-|-----------|--------------|------------------|-----------|
-| ![](static/img/screenshot_home.png) | ![](static/img/screenshot_detail.png) | ![](static/img/screenshot_calendar.png) | ![](static/img/screenshot_dashboard.png) |
 
 ---
 
