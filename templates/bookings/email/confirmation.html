@@ -1,0 +1,44 @@
+{% extends "base_email.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+    <h1 style="color: #0056b3;">Booking Confirmation</h1>
+    
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="color: #343a40;">Booking Details</h2>
+        <p><strong>Booking ID:</strong> {{ booking.id }}</p>
+        <p><strong>Check-in:</strong> {{ booking.check_in|date:"F j, Y" }}</p>
+        <p><strong>Check-out:</strong> {{ booking.check_out|date:"F j, Y" }}</p>
+        <p><strong>Total Amount:</strong> ${{ booking.total_price }}</p>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="color: #343a40;">Hotel Information</h2>
+        <p><strong>Hotel:</strong> {{ hotel.name }}</p>
+        <p><strong>Address:</strong> {{ hotel.address }}</p>
+        <p><strong>Room Type:</strong> {{ room.get_room_type_display }}</p>
+    </div>
+
+    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h2 style="color: #343a40;">Important Information</h2>
+        <ul style="list-style-type: none; padding-left: 0;">
+            <li style="margin-bottom: 10px;">✓ Check-in time: 3:00 PM</li>
+            <li style="margin-bottom: 10px;">✓ Check-out time: 11:00 AM</li>
+            <li style="margin-bottom: 10px;">✓ Please present your ID and booking confirmation at check-in</li>
+            <li style="margin-bottom: 10px;">✓ Free cancellation up to 24 hours before check-in</li>
+        </ul>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ view_booking_url }}" style="background: #0056b3; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px;">View Booking</a>
+    </div>
+
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #dee2e6;">
+        <p style="color: #6c757d; font-size: 14px;">If you have any questions about your booking, please don't hesitate to contact us:</p>
+        <p style="color: #6c757d; font-size: 14px;">
+            Email: support@hotelbooking.com<br>
+            Phone: +1 (555) 123-4567
+        </p>
+    </div>
+</div>
+{% endblock %}

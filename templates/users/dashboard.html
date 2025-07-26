@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">My Dashboard</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white">My Bookings</div>
+        <ul class="list-group list-group-flush">
+          {% for booking in bookings %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>{{ booking.room }}: {{ booking.check_in }} to {{ booking.check_out }} ({{ booking.status }})</span>
+              {% if booking.status == 'confirmed' %}
+                <a href="/bookings/cancel/{{ booking.id }}/" class="btn btn-sm btn-danger">Cancel</a>
+              {% endif %}
+            </li>
+          {% empty %}
+            <li class="list-group-item">No bookings yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card mb-4">
+        <div class="card-header bg-success text-white">My Reviews</div>
+        <ul class="list-group list-group-flush">
+          {% for review in reviews %}
+            <li class="list-group-item">
+              <strong>{{ review.hotel }}</strong> {{ review.room }}: <span class="star-rating">{% for i in "12345"|slice:":review.rating" %}<i class="fas fa-star"></i>{% endfor %}{% for i in "12345"|slice:"review.rating:" %}<i class="far fa-star"></i>{% endfor %}</span> - {{ review.comment }}
+            </li>
+          {% empty %}
+            <li class="list-group-item">No reviews yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% block layout %}{% endblock %}
+</div>
+{% endblock %}

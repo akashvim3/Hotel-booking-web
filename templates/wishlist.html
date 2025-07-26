@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>My Wishlist</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for item in wishlist %}
+      <div class="col">
+        <div class="card h-100">
+          {% if item.hotel.image %}
+            <img src="{{ item.hotel.image.url }}" class="card-img-top" alt="{{ item.hotel.name }}">
+          {% else %}
+            <img src="https://via.placeholder.com/400x200?text=No+Image" class="card-img-top" alt="No image">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ item.hotel.name }}</h5>
+            <p class="card-text">{{ item.hotel.city }}</p>
+            <a href="/hotels/{{ item.hotel.id }}/" class="btn btn-primary">View Hotel</a>
+            <a href="/wishlist/remove/{{ item.id }}/" class="btn btn-outline-danger btn-sm float-end">Remove</a>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col">
+        <div class="alert alert-info w-100">Your wishlist is empty.</div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

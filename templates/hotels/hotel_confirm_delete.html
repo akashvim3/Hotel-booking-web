@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Delete Hotel</h2>
+  <p>Are you sure you want to delete {{ hotel.name }}?</p>
+  <form method="post">{% csrf_token %}<button type="submit">Yes, delete</button></form>
+  <a href="{% url 'hotel_detail' hotel.pk %}">Cancel</a>
+{% endblock %}

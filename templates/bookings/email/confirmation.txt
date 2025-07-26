@@ -1,0 +1,31 @@
+Booking Confirmation
+
+Dear {{ booking.user.get_full_name }},
+
+Thank you for booking with {{ hotel.name }}!
+
+Booking Details:
+- Booking ID: {{ booking.id }}
+- Check-in: {{ booking.check_in|date:"F j, Y" }}
+- Check-out: {{ booking.check_out|date:"F j, Y" }}
+- Total Amount: ${{ booking.total_price }}
+
+Hotel Information:
+- Hotel: {{ hotel.name }}
+- Address: {{ hotel.address }}
+- Room Type: {{ room.get_room_type_display }}
+
+Important Information:
+- Check-in time: 3:00 PM
+- Check-out time: 11:00 AM
+- Please present your ID and booking confirmation at check-in
+- Free cancellation up to 24 hours before check-in
+
+View your booking online: {{ view_booking_url }}
+
+If you have any questions about your booking, please don't hesitate to contact us:
+Email: support@hotelbooking.com
+Phone: +1 (555) 123-4567
+
+Best regards,
+The Hotel Booking Team

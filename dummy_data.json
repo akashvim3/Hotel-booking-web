@@ -1,0 +1,205 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "username": "admin",
+      "email": "admin@example.com",
+      "role": "Admin",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "password": "pbkdf2_sha256$260000$dummy$dummyhash"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "username": "manager1",
+      "email": "manager1@example.com",
+      "role": "Manager",
+      "is_superuser": false,
+      "is_staff": true,
+      "is_active": true,
+      "password": "pbkdf2_sha256$260000$dummy$dummyhash"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 3,
+    "fields": {
+      "username": "guest1",
+      "email": "guest1@example.com",
+      "role": "Guest",
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "password": "pbkdf2_sha256$260000$dummy$dummyhash"
+    }
+  },
+  {
+    "model": "hotels.amenity",
+    "pk": 1,
+    "fields": {
+      "name": "Free WiFi",
+      "icon": "fas fa-wifi"
+    }
+  },
+  {
+    "model": "hotels.amenity",
+    "pk": 2,
+    "fields": {
+      "name": "Swimming Pool",
+      "icon": "fas fa-swimming-pool"
+    }
+  },
+  {
+    "model": "hotels.amenity",
+    "pk": 3,
+    "fields": {
+      "name": "Fitness Center",
+      "icon": "fas fa-dumbbell"
+    }
+  },
+  {
+    "model": "hotels.amenity",
+    "pk": 4,
+    "fields": {
+      "name": "Restaurant",
+      "icon": "fas fa-utensils"
+    }
+  },
+  {
+    "model": "hotels.amenity",
+    "pk": 5,
+    "fields": {
+      "name": "Parking",
+      "icon": "fas fa-parking"
+    }
+  },
+  {
+    "model": "hotels.amenity",
+    "pk": 6,
+    "fields": {
+      "name": "Air Conditioning",
+      "icon": "fas fa-snowflake"
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 1,
+    "fields": {
+      "name": "Sunrise Grand Hotel",
+      "description": "A luxury hotel with modern amenities and beautiful city views.",
+      "owner": 2,
+      "amenities": [1,2],
+      "image": "/static/img/hotel1.jpg"
+    }
+  },
+  {
+    "model": "hotels.hotel",
+    "pk": 2,
+    "fields": {
+      "name": "Seaside Resort",
+      "description": "Relax by the sea with premium service and ocean views.",
+      "manager": 2,
+      "amenities": [1],
+      "image": "/static/img/hotel2.jpg"
+    }
+  },
+  {
+    "model": "hotels.room",
+    "pk": 1,
+    "fields": {
+      "hotel": 1,
+      "room_type": "Deluxe",
+      "price": 150,
+      "capacity": 2,
+      "amenities": [1,2],
+      "is_available": true,
+      "image": "/static/img/room1.jpg"
+    }
+  },
+  {
+    "model": "hotels.room",
+    "pk": 2,
+    "fields": {
+      "hotel": 1,
+      "room_type": "Suite",
+      "price": 250,
+      "capacity": 4,
+      "amenities": [1,2],
+      "is_available": true,
+      "image": "/static/img/room2.jpg"
+    }
+  },
+  {
+    "model": "hotels.room",
+    "pk": 3,
+    "fields": {
+      "hotel": 2,
+      "room_type": "Standard",
+      "price": 100,
+      "capacity": 2,
+      "amenities": [1],
+      "is_available": true,
+      "image": "/static/img/room3.jpg"
+    }
+  },
+  {
+    "model": "bookings.booking",
+    "pk": 1,
+    "fields": {
+      "user": 3,
+      "room": 1,
+      "check_in": "2025-07-01",
+      "check_out": "2025-07-05",
+      "status": "Confirmed"
+    }
+  },
+  {
+    "model": "bookings.booking",
+    "pk": 2,
+    "fields": {
+      "user": 3,
+      "room": 2,
+      "check_in": "2025-08-10",
+      "check_out": "2025-08-15",
+      "status": "Pending"
+    }
+  },
+  {
+    "model": "reviews.review",
+    "pk": 1,
+    "fields": {
+      "hotel": 1,
+      "user": 3,
+      "rating": 5,
+      "comment": "Amazing stay! The staff was friendly and the amenities were top-notch.",
+      "created_at": "2025-06-29T12:00:00Z"
+    }
+  },
+  {
+    "model": "reviews.review",
+    "pk": 2,
+    "fields": {
+      "hotel": 1,
+      "user": 2,
+      "rating": 4,
+      "comment": "Great location and clean rooms. Would visit again!",
+      "created_at": "2025-06-28T15:00:00Z"
+    }
+  },
+  {
+    "model": "reviews.review",
+    "pk": 3,
+    "fields": {
+      "hotel": 2,
+      "user": 3,
+      "rating": 3,
+      "comment": "Nice view but the WiFi was slow.",
+      "created_at": "2025-06-27T10:00:00Z"
+    }
+  }
+]

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Admin Dashboard</h2>
+  <form id="filterForm">
+    Start Date: <input type="date" name="start">
+    End Date: <input type="date" name="end">
+    Hotel: <select name="hotel" id="hotelSelect"><option value="">All</option></select>
+    User ID: <input type="number" name="user" min="1">
+    <button type="submit">Filter</button>
+    <button type="button" id="exportCsv">Export CSV</button>
+  </form>
+  <ul>
+    <li>Total Bookings: {{ total_bookings }}</li>
+    <li>Total Revenue: ${{ total_revenue }}</li>
+    <li>Total Users: {{ total_users }}</li>
+  </ul>
+  <canvas id="bookingsChart" width="400" height="200"></canvas>
+  <canvas id="revenueChart" width="400" height="200"></canvas>
+  <canvas id="statusChart" width="400" height="200"></canvas>
+  <canvas id="hotelChart" width="400" height="200"></canvas>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Fetch hotels for filter dropdown
+    fetch('/hotels/')
+      .then(r => r.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const hotels = Array.from(doc.querySelectorAll('li a')).map(a => ({id: a.href.split('/').slice(-2)[0], name: a.textContent}));
+        const select = document.getElementById('hotelSelect');
+        hotels.forEach(h => {
+          const opt = document.createElement('option');
+          opt.value = h.id; opt.textContent = h.name; select.appendChild(opt);
+        });
+      });
+    function fetchData(params = '') {
+      fetch(`/users/admin-analytics-data/?${params}`)
+        .then(response => response.json())
+        .then(data => renderCharts(data));
+    }
+    function renderCharts(data) {
+      // Bookings by month
+      const months = data.bookings_by_month.map(item => item.month.substring(0, 7));
+      const bookings = data.bookings_by_month.map(item => item.count);
+      const revenue = data.revenue_by_month.map(item => item.total);
+      const revenueMonths = data.revenue_by_month.map(item => item.month.substring(0, 7));
+      const statusLabels = data.status_breakdown.map(item => item.status);
+      const statusCounts = data.status_breakdown.map(item => item.count);
+      const hotelLabels = data.bookings_by_hotel.map(item => item['room__hotel__name']);
+      const hotelCounts = data.bookings_by_hotel.map(item => item.count);
+      // Destroy old charts if they exist
+      window.bookingsChart && window.bookingsChart.destroy();
+      window.revenueChart && window.revenueChart.destroy();
+      window.statusChart && window.statusChart.destroy();
+      window.hotelChart && window.hotelChart.destroy();
+      // Bar chart
+      window.bookingsChart = new Chart(document.getElementById('bookingsChart').getContext('2d'), {
+        type: 'bar',
+        data: { labels: months, datasets: [{ label: 'Bookings', data: bookings, backgroundColor: 'rgba(54, 162, 235, 0.5)' }] },
+        options: { onClick: (e, elements) => {
+          if (elements.length) {
+            const month = months[elements[0].index];
+            alert('Drill-down: Show bookings for ' + month);
+          }
+        }}
+      });
+      // Line chart
+      window.revenueChart = new Chart(document.getElementById('revenueChart').getContext('2d'), {
+        type: 'line',
+        data: { labels: revenueMonths, datasets: [{ label: 'Revenue', data: revenue, borderColor: 'rgba(75, 192, 192, 1)', fill: false }] }
+      });
+      // Pie chart for status
+      window.statusChart = new Chart(document.getElementById('statusChart').getContext('2d'), {
+        type: 'pie',
+        data: { labels: statusLabels, datasets: [{ label: 'Booking Status', data: statusCounts, backgroundColor: ['#36a2eb','#ff6384','#ffce56','#4bc0c0'] }] }
+      });
+      // Doughnut chart for bookings by hotel
+      window.hotelChart = new Chart(document.getElementById('hotelChart').getContext('2d'), {
+        type: 'doughnut',
+        data: { labels: hotelLabels, datasets: [{ label: 'Bookings by Hotel', data: hotelCounts, backgroundColor: ['#36a2eb','#ff6384','#ffce56','#4bc0c0','#9966ff','#ff9f40'] }] }
+      });
+    }
+    document.getElementById('filterForm').onsubmit = function(e) {
+      e.preventDefault();
+      const params = Array.from(new FormData(this)).map(([k,v])=>v?`${k}=${encodeURIComponent(v)}`:'').filter(Boolean).join('&');
+      fetchData(params);
+    };
+    // CSV export
+    document.getElementById('exportCsv').onclick = function() {
+      const params = Array.from(new FormData(document.getElementById('filterForm'))).map(([k,v])=>v?`${k}=${encodeURIComponent(v)}`:'').filter(Boolean).join('&');
+      window.open(`/users/admin-analytics-data/?${params}&export=csv`);
+    };
+    // Initial load
+    fetchData();
+  </script>
+{% endblock %}

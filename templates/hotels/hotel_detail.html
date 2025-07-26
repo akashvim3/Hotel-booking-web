@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+      {% if hotel.images.all %}
+        <div id="hotelGallery" class="carousel slide mb-3" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for img in hotel.images.all %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img src="{{ img.image.url }}" class="d-block w-100 rounded" alt="Hotel image">
+              </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#hotelGallery" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#hotelGallery" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      {% else %}
+        <img src="https://via.placeholder.com/600x300?text=No+Image" class="img-fluid rounded mb-3" alt="No image">
+      {% endif %}
+      <h2>{{ hotel.name }}</h2>
+      <p>{{ hotel.description }}</p>
+      <p><strong>City:</strong> {{ hotel.city }}</p>
+      <p><strong>Address:</strong> {{ hotel.address }}</p>
+      <a href="/reviews/add/{{ hotel.id }}/" class="btn btn-outline-primary mb-3">Leave a Review</a>
+      <div class="card mt-3">
+        <div class="card-header bg-primary text-white">Reviews</div>
+        <div class="card-body">
+          {% if hotel.review_set.all %}
+            {% for review in hotel.review_set.all %}
+              <div class="mb-3 border-bottom pb-2">
+                <div class="d-flex align-items-center mb-1">
+                  <strong>{{ review.user.username }}</strong>
+                  <span class="ms-2 star-rating">{% for i in "12345"|slice:":review.rating" %}<i class="fas fa-star"></i>{% endfor %}{% for i in "12345"|slice:"review.rating:" %}<i class="far fa-star"></i>{% endfor %}</span>
+                  <span class="ms-auto text-muted small">{{ review.created_at|date:"M d, Y" }}</span>
+                </div>
+                <p class="mb-0">{{ review.comment }}</p>
+              </div>
+            {% endfor %}
+          {% else %}
+            <div class="text-muted">No reviews yet.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>Rooms</h3>
+      <div class="row row-cols-1 row-cols-md-2 g-3">
+        {% for room in rooms %}
+          <div class="col">
+            <div class="card h-100">
+              {% if room.images.all %}
+                <img src="{{ room.images.first.image.url }}" class="card-img-top" alt="{{ room.room_type }}">
+              {% elif room.image %}
+                <img src="{{ room.image.url }}" class="card-img-top" alt="{{ room.room_type }}">
+              {% else %}
+                <img src="https://via.placeholder.com/400x200?text=No+Image" class="card-img-top" alt="No image">
+              {% endif %}
+              <div class="card-body">
+                <h5 class="card-title">{{ room.room_type }}</h5>
+                <p class="card-text">${{ room.price }}</p>
+                <p class="card-text">{% if room.is_available %}<span class="badge bg-success">Available</span>{% else %}<span class="badge bg-danger">Booked</span>{% endif %}</p>
+                {% if room.is_available %}
+                  <a href="/bookings/book/{{ room.id }}/" class="btn btn-primary">Book Now</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

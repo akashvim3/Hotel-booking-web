@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Booking Calendar</h2>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <!-- Placeholder for calendar widget -->
+          <div id="calendar" style="min-height:400px;">
+            <div class="alert alert-info">Calendar will be displayed here.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5>Legend</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="badge bg-success">●</span> Available</li>
+            <li class="list-group-item"><span class="badge bg-danger">●</span> Booked</li>
+            <li class="list-group-item"><span class="badge bg-warning text-dark">●</span> Pending</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
